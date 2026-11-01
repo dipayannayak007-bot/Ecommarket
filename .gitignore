@@ -1,0 +1,26 @@
+# R / RStudio
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# Rendered output
+*.html
+*.pdf
+*_cache/
+*_files/
+
+# Local / private data
+data/raw/
+data/processed/
+data/survey_responses.csv
+data/transactions.csv
+*.sav
+*.dta
+*.xlsx
+*.xls
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
