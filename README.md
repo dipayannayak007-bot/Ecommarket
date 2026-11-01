@@ -14,7 +14,7 @@ R Markdown research notebook for India's e-commerce market, initially focusing o
 - data/README.md — data provenance, transaction schema and privacy notes
 - docs/survey_questionnaire.md — draft questionnaire
 
-## Run the notebook
+## Run the scenario script\n\n~~~sh\nRscript analysis/market_scenarios.R\n~~~\n\nThe script writes outputs/electronics_scenario_forecast.csv locally. The outputs directory is not committed.\n\n## Run the notebook
 Install R and RStudio, then run:
 
 ~~~r
