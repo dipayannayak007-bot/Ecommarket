@@ -1,0 +1,113 @@
+---
+title: "Project Notebook: E-Commerce Market Growth and Consumer Segmentation"
+author: "Dipayan Nayak"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+---
+
+# Project Overview
+
+**Project theme:** E-Commerce Market Growth and Consumer Segmentation
+
+This project will use e-commerce transaction data to understand customer purchasing behaviour, identify distinct customer groups, and examine patterns in sales and customer value. The notebook will record the project question, data sources, data access plan, analysis, findings, and conclusions.
+
+# Initial Analytics Investigation
+
+## 1. Selected type of analytics
+
+**Descriptive analytics** will be investigated first.
+
+Descriptive analytics summarises historical data to explain what has happened. It is a suitable starting point because the project first needs to understand sales trends, order patterns, product performance, and customer purchasing behaviour before moving to diagnostic or predictive work.
+
+## 2. Specific question
+
+**How do sales and purchasing patterns vary across customers, product categories, and time, and which customer groups contribute the most to total revenue?**
+
+The analysis will aim to answer questions such as:
+
+- How does total revenue change over time?
+- Which product categories generate the highest revenue?
+- How frequently do customers place orders?
+- What is the distribution of customer spending?
+- Which customers contribute the largest share of revenue?
+- Can customers be grouped into meaningful spending or purchasing-frequency segments?
+
+## 3. Required datasets
+
+The main dataset should contain transaction-level e-commerce records. Ideally, it will include the following fields:
+
+| Field | Purpose |
+|---|---|
+| Invoice/Order ID | Identify individual transactions |
+| Customer ID | Aggregate purchases by customer |
+| Order/Invoice date | Analyse trends over time |
+| Product ID or description | Examine product-level sales |
+| Product category | Compare category performance |
+| Quantity | Calculate units sold |
+| Unit price | Calculate transaction value |
+| Country/Region | Compare geographic purchasing patterns |
+
+**Primary dataset candidate:** UCI Online Retail dataset. It contains transactions from a UK-based online retailer and can support customer-level and product-level descriptive analysis. Dataset page: https://archive.ics.uci.edu/dataset/352/online+retail
+
+**Alternative dataset:** Online Retail II, also available from the UCI Machine Learning Repository: https://archive.ics.uci.edu/dataset/502/online+retail+ii
+
+The final dataset will be selected after checking its coverage, fields, missing values, licensing/usage conditions, and suitability for the research question. If product-category labels are not available or sufficiently detailed, product descriptions may need to be cleaned and grouped, or a supplementary product dataset may be considered.
+
+## 4. Dataset access plan
+
+1. Visit the UCI Machine Learning Repository page for the Online Retail dataset.
+2. Review the dataset description, attribute definitions, file format, and usage conditions.
+3. Download the dataset from the official repository page. Record the download date and source URL in this notebook.
+4. Save the downloaded file in a project subfolder named `data/raw/`. Avoid committing large raw files or any data with restrictions to GitHub; instead, document the download instructions and provide the source link.
+5. Import the file into R using suitable packages such as `readr`, `readxl`, or `data.table`, depending on the file format.
+6. Inspect the structure, data types, missing values, duplicate records, cancellations/returns, and unusual quantity or price values.
+7. Create a cleaned working dataset in `data/processed/` (or regenerate it through code) and document every cleaning decision.
+8. Use R packages such as `dplyr`, `lubridate`, `ggplot2`, and `janitor` to calculate summary measures and produce visualisations.
+9. Record all code, outputs, charts, interpretations, and limitations in this R Markdown notebook.
+10. Commit the notebook and supporting scripts to the GitHub repository regularly so the analysis is reproducible.
+
+# Analysis Plan
+
+After obtaining and validating the dataset, the initial descriptive analysis will include:
+
+- Overall number of transactions, unique customers, products, and countries.
+- Revenue calculation using quantity multiplied by unit price, with returns/cancellations handled explicitly.
+- Monthly and yearly revenue trends, depending on the selected dataset's date coverage.
+- Revenue and quantity by product or product category.
+- Customer-level total spending, order count, and average order value.
+- Histograms and boxplots to examine spending distributions and outliers.
+- A ranked summary of the highest-revenue customers and categories.
+
+A later stage may use RFM (Recency, Frequency, Monetary) measures to explore customer segments. This will be treated as an extension after the descriptive analysis and data quality checks.
+
+# Reproducibility and Project Log
+
+For each activity, record the date, objective, data or code used, results, interpretation, and any issues encountered.
+
+## Activity log
+
+| Date | Activity | Outcome / observations |
+|---|---|---|
+| 2026-11-01 | Selected initial analytics type and framed the research question | Descriptive analytics selected; transaction-level e-commerce data required. |
+| 2026-11-01 | Identified candidate dataset and access plan | UCI Online Retail selected as the primary candidate; Online Retail II identified as an alternative. |
+
+## Data source record
+
+| Dataset | Repository | URL | Access date | Notes |
+|---|---|---|---|---|
+| Online Retail | UCI Machine Learning Repository | https://archive.ics.uci.edu/dataset/352/online+retail | To be recorded after download | Primary candidate |
+| Online Retail II | UCI Machine Learning Repository | https://archive.ics.uci.edu/dataset/502/online+retail+ii | To be recorded if used | Alternative candidate |
+
+# References
+
+- UCI Machine Learning Repository. *Online Retail*. https://archive.ics.uci.edu/dataset/352/online+retail
+- UCI Machine Learning Repository. *Online Retail II*. https://archive.ics.uci.edu/dataset/502/online+retail+ii
+- R Markdown documentation. https://rmarkdown.rstudio.com/
+
+---
+
+**Note:** This notebook records the initial project proposal. Dataset download, validation, analysis, and findings must be added as those activities are completed.
