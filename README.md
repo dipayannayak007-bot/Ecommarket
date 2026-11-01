@@ -6,6 +6,7 @@ R Markdown research notebook for India's e-commerce market, initially focusing o
 
 - `Project_Notebook.Rmd` — main R Markdown notebook with data sourcing, market context, TAM/SAM model, scenario forecast and analysis templates.
 - `analysis/market_scenarios.R` — standalone reproducible TAM/SAM and scenario calculation.
+- `analysis/create_visuals.R` — creates line charts, category bar chart, TAM/SAM comparison, scenario chart and (when real data are supplied) transaction histogram and survey charts.
 - `data/india_ecommerce_market.csv` — published market benchmark series, with forecasts labelled.
 - `data/survey_template.csv` — blank primary consumer survey response schema.
 - `data/README.md` — data provenance, transaction schema and privacy notes.
@@ -21,6 +22,16 @@ Rscript analysis/market_scenarios.R
 ~~~
 
 The script writes `outputs/electronics_scenario_forecast.csv` locally.
+
+## Generate project visuals
+
+Run:
+
+~~~sh
+Rscript analysis/create_visuals.R
+~~~
+
+PNG charts are saved to `outputs/figures/`. The script creates four benchmark visuals immediately. It creates a transaction-value histogram and consumer survey charts only after you add real, consented data to `data/transactions.csv` and/or `data/survey_responses.csv`. No synthetic observations are generated.
 
 ## Run the notebook
 
