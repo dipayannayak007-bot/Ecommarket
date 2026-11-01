@@ -264,6 +264,76 @@ if (file.exists(transaction_path) && file.info(transaction_path)$size > 0) {
 }
 ~~~
 
+# Additional visual analysis
+
+The following plots make the market-sizing and consumer-analysis outputs easier to interpret. The histogram and consumer charts are generated only from supplied real data; they are not populated with invented observations.
+
+## TAM versus illustrative SAM
+
+~~~{r tam-sam-chart, fig.width=7, fig.height=4}
+tibble(
+  Market = factor(c("TAM", "Illustrative SAM"), levels = c("TAM", "Illustrative SAM")),
+  Value_USD_Bn = c(tam_2024_usd_bn, sam_2024_usd_bn)
+) %>%
+  ggplot(aes(x = Market, y = Value_USD_Bn)) +
+  geom_col(fill = "steelblue", width = 0.6) +
+  geom_text(aes(label = paste0("$", round(Value_USD_Bn, 1), "bn")),
+            vjust = -0.5, size = 4) +
+  scale_y_continuous(limits = c(0, 32), labels = label_dollar(suffix = "bn")) +
+  labs(title = "India electronics & appliances: 2024 market sizing",
+       subtitle = "SAM is based on an illustrative 30% reachability assumption",
+       x = NULL, y = "Market value (US$ billion)") +
+  theme_minimal()
+~~~
+
+## Transaction value histogram
+
+A histogram requires a numeric transaction value. This plot is skipped until a permitted transaction file is supplied.
+
+~~~{r transaction-histogram, fig.width=8, fig.height=5}
+if (file.exists(transaction_path) && exists("tx") &&
+    "net_value_inr" %in% names(tx) && nrow(tx) > 0) {
+  print(
+    ggplot(tx, aes(x = net_value_inr)) +
+      geom_histogram(bins = 30, fill = "steelblue", colour = "white") +
+      scale_x_continuous(labels = label_number(big.mark = ",")) +
+      labs(title = "Distribution of transaction values",
+           subtitle = "Histogram based on supplied transaction records",
+           x = "Net transaction value (INR)", y = "Number of transactions") +
+      theme_minimal()
+  )
+} else {
+  cat("Histogram pending: add a valid data/transactions.csv file first.")
+}
+~~~
+
+## Survey category and frequency charts
+
+~~~{r survey-charts, fig.width=8, fig.height=5}
+if (exists("survey")) {
+  if ("preferred_category" %in% names(survey)) {
+    print(survey %>% filter(!is.na(preferred_category), preferred_category != "") %>%
+      count(preferred_category, sort = TRUE) %>%
+      ggplot(aes(x = reorder(preferred_category, n), y = n)) +
+      geom_col(fill = "darkseagreen4") + coord_flip() +
+      labs(title = "Preferred online shopping category",
+           x = NULL, y = "Respondents") + theme_minimal())
+  }
+
+  if ("purchase_frequency_12m" %in% names(survey)) {
+    print(survey %>% filter(!is.na(purchase_frequency_12m),
+                            purchase_frequency_12m != "") %>%
+      count(purchase_frequency_12m) %>%
+      ggplot(aes(x = reorder(purchase_frequency_12m, n), y = n)) +
+      geom_col(fill = "darkorange2") + coord_flip() +
+      labs(title = "Online purchase frequency in the last 12 months",
+           x = NULL, y = "Respondents") + theme_minimal())
+  }
+} else {
+  cat("Survey charts pending: add consented responses to data/survey_responses.csv.")
+}
+~~~
+
 # Diagnostic, predictive and prescriptive extensions
 
 ## Diagnostic
