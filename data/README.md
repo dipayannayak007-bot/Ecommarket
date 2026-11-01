@@ -1,7 +1,7 @@
 # Data directory
 
 ## Files and intended use
-- survey_template.csv: blank schema for primary survey responses.
+- india_ecommerce_market.csv: sourced market benchmark values (IBEF total e-commerce series and NITI Aayog 2024 category estimates). Forecast values are labelled as forecasts.\n- survey_template.csv: blank schema for primary survey responses.
 - survey_responses.csv: create locally from consented, anonymised responses; excluded from Git.
 - transactions.csv: optional permitted India transaction extract; excluded from Git.
 - raw/ and processed/: local source data; do not commit restricted or large microdata.
