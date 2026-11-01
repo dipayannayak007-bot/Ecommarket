@@ -102,6 +102,33 @@ Use a documented sampling plan with coverage across regions, urban/rural locatio
 
 Public national, category-level e-commerce transaction microdata may not be available in one open, nationally representative dataset. If a permitted transaction dataset is obtained from a platform, retailer, research partner or open-data source, document its geography, period, sampling frame, fields, licence and limitations. The notebook supports a standardised transaction CSV described in data/README.md. Never represent a non-Indian or synthetic dataset as Indian national transaction data.
 
+# National e-commerce market trend (published benchmark)
+
+IBEF's August 2025 infographic reports the following India e-commerce market values. The 2025 and 2026 values are forecasts in that publication, and 2030/2035 are longer-range forecasts; they must not be presented as actual outcomes.
+
+~~~{r national-market-trend}
+india_market_trend <- tibble(
+  Year = c(2021, 2022, 2023, 2024, 2025, 2026, 2030, 2035),
+  Market_USD_Bn = c(67, 84, 102, 125, 145, 163, 345, 550),
+  Status = c("Reported", "Reported", "Reported", "Reported",
+             "Forecast", "Forecast", "Forecast", "Forecast")
+)
+
+india_market_trend %>%
+  kable(caption = "India e-commerce market values reported by IBEF (US$ billion)")
+
+ggplot(india_market_trend, aes(x = Year, y = Market_USD_Bn, linetype = Status)) +
+  geom_line(linewidth = 0.9) + geom_point(size = 2) +
+  scale_x_continuous(breaks = india_market_trend$Year) +
+  scale_y_continuous(labels = label_dollar(prefix = "$", suffix = "bn")) +
+  labs(title = "India e-commerce market: reported values and forecasts",
+       subtitle = "IBEF infographic, August 2025; forecast years are explicitly identified",
+       x = "Year", y = "Market value", linetype = "Data status") +
+  theme_minimal()
+~~~
+
+This series describes the **total e-commerce market**, not the electronics subcategory alone. It is used for national context and is not mixed into the category TAM calculation below.
+
 # Market sizing: initial baseline
 
 The NITI Aayog Trade Watch Q2 FY2025-26 report gives a 2024 India online market estimate of **US$27 billion** for electronics and appliances. This is used as the initial published **TAM benchmark**.
