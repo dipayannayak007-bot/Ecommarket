@@ -1,113 +1,289 @@
 ---
-title: "Project Notebook: E-Commerce Market Growth and Consumer Segmentation"
+title: "CNT-02: India E-Commerce Market Growth and Consumer Segmentation"
 author: "Dipayan Nayak"
-date: "`r Sys.Date()`"
+date: "2026-11-01"
 output:
   html_document:
     toc: true
     toc_depth: 3
     number_sections: true
+    theme: readable
 ---
 
-# Project Overview
+~~~{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+pkgs <- c("tidyverse", "scales", "lubridate", "janitor", "knitr")
+missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
+if (length(missing)) stop("Install missing packages: ", paste(missing, collapse = ", "))
+library(tidyverse)
+library(scales)
+library(knitr)
+~~~
 
-**Project theme:** E-Commerce Market Growth and Consumer Segmentation
+# Executive summary
 
-This project will use e-commerce transaction data to understand customer purchasing behaviour, identify distinct customer groups, and examine patterns in sales and customer value. The notebook will record the project question, data sources, data access plan, analysis, findings, and conclusions.
+This project studies India's e-commerce market, initially focusing on **electronics and appliances**. It combines published market indicators, household expenditure context and a primary consumer survey design to examine category preference, price sensitivity and purchase frequency. It estimates an addressable market and models alternative growth scenarios.
 
-# Initial Analytics Investigation
+**Evidence boundary:** published market estimates are not transaction-level microdata. Public household expenditure data are not a direct measure of online purchases. This notebook separates published benchmarks, survey evidence to be collected, and explicit modelling assumptions. No synthetic observations are presented as real survey responses.
 
-## 1. Selected type of analytics
+# Project definition
 
-**Descriptive analytics** will be investigated first.
+- **Project code:** CNT-02
+- **Country:** India
+- **Initial product category:** Electronics and appliances (working scope)
+- **Primary analytics:** Descriptive
+- **Further stages:** Diagnostic, predictive scenario modelling and prescriptive recommendations
+- **Tools:** R, RStudio, R Markdown, tidyverse, ggplot2 and GitHub
 
-Descriptive analytics summarises historical data to explain what has happened. It is a suitable starting point because the project first needs to understand sales trends, order patterns, product performance, and customer purchasing behaviour before moving to diagnostic or predictive work.
+## Research question
 
-## 2. Specific question
+**How do category preference, price sensitivity and purchase frequency vary among Indian online consumers, and what do these patterns imply for the addressable market and future growth potential of online electronics and appliances?**
 
-**How do sales and purchasing patterns vary across customers, product categories, and time, and which customer groups contribute the most to total revenue?**
+Sub-questions:
+1. Which electronics subcategories are most preferred by online consumers?
+2. How frequently do consumers buy electronics online, and how much do they typically spend?
+3. How strongly do discounts, EMI options, exchange offers and delivery costs influence purchase decisions?
+4. How large is the current online electronics-and-appliances market, and what portion could be serviceable under transparent assumptions?
+5. How would the category market evolve under conservative, base and optimistic growth scenarios?
 
-The analysis will aim to answer questions such as:
+## Analytics type selected first
 
-- How does total revenue change over time?
-- Which product categories generate the highest revenue?
-- How frequently do customers place orders?
-- What is the distribution of customer spending?
-- Which customers contribute the largest share of revenue?
-- Can customers be grouped into meaningful spending or purchasing-frequency segments?
+**Descriptive analytics** is the first investigation because the project must establish what the market and consumer behaviour look like before explaining drivers or forecasting outcomes. It will summarise category shares, consumer purchase frequency, spending bands and price sensitivity.
 
-## 3. Required datasets
+# Scope and definitions
 
-The main dataset should contain transaction-level e-commerce records. Ideally, it will include the following fields:
+- **E-commerce market value / GMV:** value of goods sold online as defined by the cited market source; it may not equal retailer net revenue.
+- **TAM (Total Addressable Market):** full annual online market value for the chosen category in the defined geography.
+- **SAM (Serviceable Available Market):** portion of TAM a defined business model could realistically serve, based on explicit channel, geography, product and customer eligibility assumptions.
+- **SOM (Serviceable Obtainable Market):** share of SAM a specific business could plausibly capture. This project will not claim a company-specific SOM without a defined business and competitive evidence.
+- **Price sensitivity:** stated consumer response to price changes, discounts, financing and shipping costs. Survey answers are self-reported, not observed elasticities.
+- **Purchase frequency:** number of online purchases in a defined recall period. Electronics are infrequent purchases, so a 12-month recall period is recommended.
 
-| Field | Purpose |
-|---|---|
-| Invoice/Order ID | Identify individual transactions |
-| Customer ID | Aggregate purchases by customer |
-| Order/Invoice date | Analyse trends over time |
-| Product ID or description | Examine product-level sales |
-| Product category | Compare category performance |
-| Quantity | Calculate units sold |
-| Unit price | Calculate transaction value |
-| Country/Region | Compare geographic purchasing patterns |
+# Data sources and access plan
 
-**Primary dataset candidate:** UCI Online Retail dataset. It contains transactions from a UK-based online retailer and can support customer-level and product-level descriptive analysis. Dataset page: https://archive.ics.uci.edu/dataset/352/online+retail
+## Published market benchmarks
 
-**Alternative dataset:** Online Retail II, also available from the UCI Machine Learning Repository: https://archive.ics.uci.edu/dataset/502/online+retail+ii
+| Source | Measure | Reference value | Role |
+|---|---|---:|---|
+| IBEF, E-commerce infographic (Aug 2025) | India e-commerce market value | US$125bn (2024) | Total-market trend benchmark |
+| IBEF, E-commerce infographic (Aug 2025) | Electronics & appliances share | 21% (2022) | Historical category-mix context |
+| NITI Aayog, Trade Watch Q2 FY2025-26 | Electronics & appliances online market | US$27bn (2024) | Category TAM baseline |
+| NITI Aayog, Trade Watch Q2 FY2025-26 | Smartphones online market | US$39bn (2024) | Separate category; not added here |
 
-The final dataset will be selected after checking its coverage, fields, missing values, licensing/usage conditions, and suitability for the research question. If product-category labels are not available or sufficiently detailed, product descriptions may need to be cleaned and grouped, or a supplementary product dataset may be considered.
+NITI Aayog also discusses a broader electronics-related grouping combining smartphones with electronics and appliances. This notebook keeps the **US$27bn electronics-and-appliances figure** separate from the **US$39bn smartphone figure** to avoid double counting and category ambiguity.
 
-## 4. Dataset access plan
+## Household expenditure and socioeconomic context
 
-1. Visit the UCI Machine Learning Repository page for the Online Retail dataset.
-2. Review the dataset description, attribute definitions, file format, and usage conditions.
-3. Download the dataset from the official repository page. Record the download date and source URL in this notebook.
-4. Save the downloaded file in a project subfolder named `data/raw/`. Avoid committing large raw files or any data with restrictions to GitHub; instead, document the download instructions and provide the source link.
-5. Import the file into R using suitable packages such as `readr`, `readxl`, or `data.table`, depending on the file format.
-6. Inspect the structure, data types, missing values, duplicate records, cancellations/returns, and unusual quantity or price values.
-7. Create a cleaned working dataset in `data/processed/` (or regenerate it through code) and document every cleaning decision.
-8. Use R packages such as `dplyr`, `lubridate`, `ggplot2`, and `janitor` to calculate summary measures and produce visualisations.
-9. Record all code, outputs, charts, interpretations, and limitations in this R Markdown notebook.
-10. Commit the notebook and supporting scripts to the GitHub repository regularly so the analysis is reproducible.
+MoSPI's Household Consumption Expenditure Survey (HCES) 2023-24 provides household consumption and expenditure information across India. It is useful for understanding spending capacity and rural/urban and state differences, but it does **not** directly identify online electronics transactions. Use it as contextual data, not as a direct e-commerce demand count.
 
-# Analysis Plan
+Access:
+- HCES catalogue: https://microdata.gov.in/NADA/index.php/catalog/CEXP
+- MoSPI HCES 2023-24 factsheet: https://www.mospi.gov.in/sites/default/files/publication_reports/HCES%20FactSheet%202023-24.pdf
+- eSankhyiki data catalogue: https://esankhyiki.mospi.gov.in/catalogue-main
 
-After obtaining and validating the dataset, the initial descriptive analysis will include:
+HCES microdata may have access terms and redistribution restrictions. Download through the official catalogue, follow the data-use rider and do not commit restricted microdata to this public repository.
 
-- Overall number of transactions, unique customers, products, and countries.
-- Revenue calculation using quantity multiplied by unit price, with returns/cancellations handled explicitly.
-- Monthly and yearly revenue trends, depending on the selected dataset's date coverage.
-- Revenue and quantity by product or product category.
-- Customer-level total spending, order count, and average order value.
-- Histograms and boxplots to examine spending distributions and outliers.
-- A ranked summary of the highest-revenue customers and categories.
+## Digital adoption context
 
-A later stage may use RFM (Recency, Frequency, Monetary) measures to explore customer segments. This will be treated as an extension after the descriptive analysis and data quality checks.
+Use official indicators such as internet subscriptions, digital payment adoption and household device access as supporting context. These are enabling indicators, not direct evidence of online electronics purchases.
+- RBI Database on Indian Economy: https://dbie.rbi.org.in/
+- TRAI reports: https://www.trai.gov.in/
+- MeitY: https://www.meity.gov.in/
 
-# Reproducibility and Project Log
+## Primary consumer survey
 
-For each activity, record the date, objective, data or code used, results, interpretation, and any issues encountered.
+A national consumer survey is required to directly measure online category preference, purchase frequency and price sensitivity. The repository includes a blank template at data/survey_template.csv and a questionnaire at docs/survey_questionnaire.md.
 
-## Activity log
+Record respondent consent, state/UT, broad age band, urban/rural residence, online purchase history, electronics subcategory preference, purchase frequency, spend band and responses to price/discount/EMI/delivery scenarios. Do not collect names, phone numbers, exact addresses or payment credentials.
 
-| Date | Activity | Outcome / observations |
+Use a documented sampling plan with coverage across regions, urban/rural locations and age groups. A convenience sample of classmates or social-media contacts is not nationally representative; describe it as exploratory and do not extrapolate it to all India without a defensible weighting design.
+
+## Transaction data
+
+Public national, category-level e-commerce transaction microdata may not be available in one open, nationally representative dataset. If a permitted transaction dataset is obtained from a platform, retailer, research partner or open-data source, document its geography, period, sampling frame, fields, licence and limitations. The notebook supports a standardised transaction CSV described in data/README.md. Never represent a non-Indian or synthetic dataset as Indian national transaction data.
+
+# Market sizing: initial baseline
+
+The NITI Aayog Trade Watch Q2 FY2025-26 report gives a 2024 India online market estimate of **US$27 billion** for electronics and appliances. This is used as the initial published **TAM benchmark**.
+
+The initial SAM is not directly published. It is calculated using a transparent planning assumption for the share of the category market reachable by a hypothetical online offer. The default 30% is a scenario input only and must be replaced by evidence from survey eligibility, geography, product coverage, logistics and business model.
+
+~~~{r market-sizing}
+tam_2024_usd_bn <- 27
+sam_reachable_share <- 0.30  # planning assumption, not a measured market share
+sam_2024_usd_bn <- tam_2024_usd_bn * sam_reachable_share
+
+tibble(
+  Metric = c("TAM: India electronics & appliances online market (2024)",
+             "Assumed serviceable share", "Illustrative SAM (2024)"),
+  Value = c(tam_2024_usd_bn, sam_reachable_share, sam_2024_usd_bn),
+  Unit = c("US$ billion", "proportion", "US$ billion")
+) %>%
+  mutate(Value = if_else(Unit == "proportion", percent(Value, accuracy = 1),
+                         number(Value, accuracy = 0.1))) %>%
+  kable(caption = "Initial market sizing; SAM is assumption-driven")
+~~~
+
+# Market growth scenarios
+
+The scenario model projects the US$27bn 2024 category baseline for six years. The annual growth rates below are **illustrative assumptions**, not forecasts published by NITI Aayog or guaranteed outcomes:
+- Conservative: 8% annual growth
+- Base: 12% annual growth
+- Optimistic: 16% annual growth
+
+~~~{r scenario-model}
+base_year <- 2024
+forecast_years <- 2024:2030
+growth_scenarios <- tibble(
+  Scenario = c("Conservative", "Base", "Optimistic"),
+  CAGR = c(0.08, 0.12, 0.16)
+)
+
+scenario_forecast <- tidyr::crossing(Year = forecast_years, growth_scenarios) %>%
+  mutate(
+    Market_USD_Bn = tam_2024_usd_bn * (1 + CAGR)^(Year - base_year),
+    Illustrative_SAM_USD_Bn = Market_USD_Bn * sam_reachable_share
+  )
+
+scenario_forecast %>%
+  filter(Year %in% c(2024, 2026, 2028, 2030)) %>%
+  mutate(CAGR = percent(CAGR),
+         across(c(Market_USD_Bn, Illustrative_SAM_USD_Bn), ~round(.x, 2))) %>%
+  kable(caption = "Scenario projections (US$ billion; assumptions, not observed data)")
+~~~
+
+~~~{r scenario-chart, fig.width=8, fig.height=5}
+ggplot(scenario_forecast, aes(x = Year, y = Market_USD_Bn, colour = Scenario)) +
+  geom_line(linewidth = 1.1) + geom_point(size = 2) +
+  scale_y_continuous(labels = label_dollar(prefix = "$", suffix = "bn")) +
+  scale_x_continuous(breaks = forecast_years) +
+  labs(title = "Illustrative India electronics & appliances e-commerce scenarios",
+       subtitle = "US$27bn 2024 baseline; assumed CAGRs of 8%, 12% and 16%",
+       x = "Year", y = "Market value", colour = "Scenario") +
+  theme_minimal()
+~~~
+
+# Consumer segmentation framework
+
+The survey will create three core dimensions:
+
+1. **Category preference:** smartphones, laptops/computers, televisions, large appliances, small appliances, accessories or other electronics.
+2. **Price sensitivity:** importance of discounts, willingness to delay purchase for a lower price, response to price increases, EMI and exchange preference.
+3. **Purchase frequency:** number of online purchases in the previous 12 months and recency of last purchase.
+
+After real responses are collected, segment consumers using interpretable rules first (for example, frequent/value-seeking, occasional/deal-driven, planned/high-ticket and low-engagement). K-means or hierarchical clustering may be tested only after encoding, scaling and checking sample adequacy. Cluster labels must be assigned after examining actual profiles; do not pre-claim segments.
+
+# Survey data analysis template
+
+Place completed, consented responses in data/survey_responses.csv using the columns in data/survey_template.csv. This chunk runs only when a non-empty response file exists.
+
+~~~{r survey-analysis}
+survey_path <- "data/survey_responses.csv"
+if (file.exists(survey_path) && file.info(survey_path)$size > 0) {
+  survey <- readr::read_csv(survey_path, show_col_types = FALSE) %>%
+    janitor::clean_names()
+
+  if ("purchase_frequency_12m" %in% names(survey)) {
+    print(survey %>% count(purchase_frequency_12m, sort = TRUE) %>%
+      mutate(Share = n / sum(n)) %>%
+      kable(caption = "Respondent purchase frequency (unweighted sample)"))
+  }
+
+  if ("price_sensitivity" %in% names(survey)) {
+    print(survey %>% count(price_sensitivity, sort = TRUE) %>%
+      ggplot(aes(x = reorder(price_sensitivity, n), y = n)) +
+      geom_col() + coord_flip() +
+      labs(title = "Self-reported price sensitivity", x = NULL, y = "Respondents") +
+      theme_minimal())
+  }
+} else {
+  cat("No survey response file found yet. Collect consented responses before interpreting consumer segments.")
+}
+~~~
+
+# Transaction analysis template
+
+If a permitted Indian transaction extract is available, save it as data/transactions.csv with fields: order_id, customer_id, order_date, category, product, quantity, unit_price_inr, discount_inr, state.
+
+~~~{r transaction-analysis}
+transaction_path <- "data/transactions.csv"
+if (file.exists(transaction_path) && file.info(transaction_path)$size > 0) {
+  tx <- readr::read_csv(transaction_path, show_col_types = FALSE) %>%
+    janitor::clean_names() %>%
+    mutate(
+      order_date = as.Date(order_date),
+      gross_value_inr = quantity * unit_price_inr,
+      net_value_inr = gross_value_inr - coalesce(discount_inr, 0)
+    ) %>%
+    filter(!is.na(order_date), quantity > 0, unit_price_inr >= 0)
+
+  print(tx %>% summarise(
+    orders = n_distinct(order_id), customers = n_distinct(customer_id),
+    net_sales_inr = sum(net_value_inr, na.rm = TRUE)
+  ) %>% kable(caption = "Summary of supplied transaction extract"))
+
+  print(tx %>% count(category, wt = net_value_inr, name = "net_sales_inr", sort = TRUE) %>%
+    ggplot(aes(x = reorder(category, net_sales_inr), y = net_sales_inr)) +
+    geom_col() + coord_flip() +
+    scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+    labs(title = "Net sales by category", x = NULL, y = "INR") + theme_minimal())
+
+  customer_profile <- tx %>% group_by(customer_id) %>%
+    summarise(orders = n_distinct(order_id),
+              monetary_inr = sum(net_value_inr, na.rm = TRUE), .groups = "drop")
+  print(summary(customer_profile))
+} else {
+  cat("No transaction extract supplied. Do not use the UK UCI Online Retail data as evidence for India's national market.")
+}
+~~~
+
+# Diagnostic, predictive and prescriptive extensions
+
+## Diagnostic
+
+Compare observed differences by state/region, urban/rural status, age band and spending band where sample size permits. Test whether discount reliance, EMI preference or delivery costs are associated with purchase frequency. Report uncertainty and possible confounding; do not claim causation from a cross-sectional survey.
+
+## Predictive
+
+Once a sufficiently large, representative time series is available, compare trend/compound-growth baselines with time-series models. Validate using a holdout period and report error metrics. The scenario model here is a sensitivity analysis, not a fitted predictive model.
+
+## Prescriptive
+
+Translate findings into actions such as price-band design, financing options, exchange programmes, category assortment and regional fulfilment priorities. Tie recommendations to observed evidence and the target business model.
+
+# Limitations
+
+- National e-commerce transaction microdata are not assumed to be openly available.
+- HCES measures household consumption expenditure, not specifically online purchases.
+- Market research estimates may use different definitions, coverage and valuation methods; values should not be combined without reconciliation.
+- The US$27bn category baseline is a published 2024 estimate; the illustrative SAM share and scenario CAGRs are assumptions.
+- A convenience survey cannot be treated as nationally representative.
+- Self-reported price sensitivity may differ from observed purchasing behaviour.
+- Exchange-rate conversion and inflation adjustment are not applied in the nominal-USD scenario model.
+
+# Project activity log
+
+| Date | Activity | Status |
 |---|---|---|
-| 2026-11-01 | Selected initial analytics type and framed the research question | Descriptive analytics selected; transaction-level e-commerce data required. |
-| 2026-11-01 | Identified candidate dataset and access plan | UCI Online Retail selected as the primary candidate; Online Retail II identified as an alternative. |
-
-## Data source record
-
-| Dataset | Repository | URL | Access date | Notes |
-|---|---|---|---|---|
-| Online Retail | UCI Machine Learning Repository | https://archive.ics.uci.edu/dataset/352/online+retail | To be recorded after download | Primary candidate |
-| Online Retail II | UCI Machine Learning Repository | https://archive.ics.uci.edu/dataset/502/online+retail+ii | To be recorded if used | Alternative candidate |
+| 2026-11-01 | Confirmed country and CNT-02 theme | Completed |
+| 2026-11-01 | Selected electronics & appliances as working category | Provisional |
+| 2026-11-01 | Identified Indian public market and household expenditure sources | Completed |
+| 2026-11-01 | Created initial TAM and scenario framework | Completed; assumptions disclosed |
+| Pending | Download and review HCES data under its usage terms | Pending |
+| Pending | Conduct consented consumer survey | Pending |
+| Pending | Obtain permitted India transaction data, if available | Pending |
+| Pending | Run empirical segmentation and validate forecasts | Pending |
 
 # References
 
-- UCI Machine Learning Repository. *Online Retail*. https://archive.ics.uci.edu/dataset/352/online+retail
-- UCI Machine Learning Repository. *Online Retail II*. https://archive.ics.uci.edu/dataset/502/online+retail+ii
-- R Markdown documentation. https://rmarkdown.rstudio.com/
+1. NITI Aayog. *Trade Watch Quarterly, July–September (Q2) FY 2025-26*, section on India's e-commerce market and category values. https://niti.gov.in/sites/default/files/2026-02/Trade-Watch-Quarterly-July-September-Q2-FY-2025-26.pdf
+2. India Brand Equity Foundation (IBEF). *E-Commerce Infographic, August 2025*. https://www.ibef.org/uploads/industry/Infrographics/large/e-Commerce-%20infographics-august-2025.pdf
+3. MoSPI. *Household Consumption Expenditure Survey 2023-24*. https://microdata.gov.in/NADA/index.php/catalog/CEXP
+4. MoSPI. *HCES 2023-24 Factsheet*. https://www.mospi.gov.in/sites/default/files/publication_reports/HCES%20FactSheet%202023-24.pdf
+5. RBI Database on Indian Economy. https://dbie.rbi.org.in/
+6. Telecom Regulatory Authority of India. https://www.trai.gov.in/
+7. R Markdown documentation. https://rmarkdown.rstudio.com/
 
 ---
 
-**Note:** This notebook records the initial project proposal. Dataset download, validation, analysis, and findings must be added as those activities are completed.
+**Reproducibility note:** Render this file in RStudio using Knit or run rmarkdown::render("Project_Notebook.Rmd"). Add only data you are permitted to share. Update the activity log with actual work and findings as each stage is completed.
