@@ -75,7 +75,7 @@ def prepare_survey(path: Path) -> tuple[pd.DataFrame, list[str]]:
     return df.reset_index(drop=True), available
 
 
-def run_clustering(df: pd.DataFrame, features: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+def run_clustering(df: pd.DataFrame, features: list[str]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     X = df[features].copy()
     numeric = [c for c in features if pd.api.types.is_numeric_dtype(X[c])]
     categorical = [c for c in features if c not in numeric]
