@@ -1,6 +1,11 @@
+import sys
 import unittest
+from pathlib import Path
+
 import pandas as pd
 
+# Make the python/ project directory importable during unittest discovery.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from run_project import build_scenarios, calculate_adjacent_year_growth, load_market_data
 
 
