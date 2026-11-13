@@ -1,59 +1,66 @@
 # CNT-02 — India E-Commerce Market Growth and Consumer Segmentation
 
-R Markdown research notebook for India's e-commerce market, initially focusing on electronics and appliances.
+A reproducible research and analytics project examining India's e-commerce market,
+with an initial focus on online electronics and appliances.
 
-## Repository contents
+## Project components
 
-- `Project_Notebook.Rmd` — main R Markdown notebook with data sourcing, market context, TAM/SAM model, scenario forecast and analysis templates.
-- `analysis/market_scenarios.R` — standalone reproducible TAM/SAM and scenario calculation.
-- `analysis/create_visuals.R` — creates line charts, category bar chart, TAM/SAM comparison, scenario chart and (when real data are supplied) transaction histogram and survey charts.
-- `data/india_ecommerce_market.csv` — published market benchmark series, with forecasts labelled.
-- `data/survey_template.csv` — blank primary consumer survey response schema.
-- `data/README.md` — data provenance, transaction schema and privacy notes.
-- `docs/survey_questionnaire.md` — draft questionnaire.
-- `.gitignore` — excludes local/private data and rendered outputs.
+- `Project_Notebook.Rmd`: research notebook, source notes, market sizing,
+  scenario analysis and data-gated survey/transaction templates.
+- `analysis/`: R scripts for scenario modelling and conditional visuals.
+- `data/`: published market benchmarks and blank survey schema.
+- `docs/survey_questionnaire.md`: voluntary, anonymised consumer questionnaire.
+- `python/`: reproducible Python market analysis, HTML report, charts, tables
+  and an optional real-data consumer clustering workflow.
 
-## Run the scenario script
+## Run the Python analysis
 
-From the repository root:
+Install dependencies once:
 
-~~~sh
-Rscript analysis/market_scenarios.R
-~~~
+```bash
+python -m pip install -r python/requirements.txt
+```
 
-The script writes `outputs/electronics_scenario_forecast.csv` locally.
+Generate the market report:
 
-## Generate project visuals
+```bash
+python python/run_project.py
+```
 
-Run:
+Outputs: six PNG charts, three CSV tables and
+`python/reports/Project_Report.html`.
 
-~~~sh
-Rscript analysis/create_visuals.R
-~~~
+## Consumer segmentation
 
-PNG charts are saved to `outputs/figures/`. The script creates four benchmark visuals immediately. It creates a transaction-value histogram and consumer survey charts only after you add real, consented data to `data/transactions.csv` and/or `data/survey_responses.csv`. No synthetic observations are generated.
+Segmentation requires actual, consented survey responses. No respondent data is
+included or fabricated. Follow the questionnaire and data schema, save the
+anonymised response file locally as `python/data/survey_responses.csv`, and run:
 
-## Run the notebook
+```bash
+python python/segment_consumers.py --input python/data/survey_responses.csv
+```
 
-Install R and RStudio, then run:
-
-~~~r
-install.packages(c("rmarkdown", "knitr", "tidyverse", "scales",
-                   "lubridate", "janitor"))
-rmarkdown::render("Project_Notebook.Rmd")
-~~~
+The script checks consent and minimum sample adequacy before exploratory K-Means
+clustering. A convenience sample must not be described as nationally representative.
 
 ## Evidence and assumptions
 
-- Published 2024 category benchmark: US$27bn for India's online electronics and appliances market, cited to NITI Aayog Trade Watch Q2 FY2025-26.
-- Scenario CAGRs (8%, 12%, 16%) and 30% SAM reachability factor are illustrative modelling assumptions, not observed market shares or official forecasts.
-- MoSPI HCES is household consumption expenditure data, not an online transaction database.
-- No fabricated survey or transaction records are included. Empirical segmentation requires actual consented responses.
+- The 2024 India online electronics-and-appliances market benchmark is US$27bn,
+  attributed in the notebook to NITI Aayog Trade Watch Q2 FY2025-26.
+- The total e-commerce series is attributed to IBEF's August 2025 infographic.
+- Scenario growth rates (8%, 12%, 16%) and the 30% SAM reachability share are
+  illustrative assumptions, not official forecasts or measured market shares.
+- HCES household expenditure is contextual data, not a direct record of online orders.
+- Category benchmarks are not added together where their definitions may overlap.
 
-## Privacy
+## Reproducibility and privacy
 
-Do not commit identifiable respondent information, restricted microdata, credentials or personal data. See `data/README.md`.
+Python outputs are generated from committed source data. R outputs are generated
+locally. Private survey responses, transaction extracts and restricted microdata
+must not be committed. See `data/README.md` and the notebook for data-use notes.
 
-## Status
+## Project status
 
-Initial research design, published benchmarks, survey instrument and scenario model are in place. Survey collection, data acquisition and empirical validation remain pending.
+Published benchmark analysis and survey design are implemented. Primary survey
+collection, permitted transaction-data acquisition and empirical validation remain
+future research steps.
