@@ -3,10 +3,17 @@
 A reproducible research and analytics project examining India's e-commerce market,
 with an initial focus on online electronics and appliances.
 
+## Project report
+
+Read the [HTML project report](docs/Project_Report.html) for the executive summary,
+research objectives, source data, market trend visualisation, TAM/SAM scenarios,
+methodology, limitations and future scope.
+
 ## Project components
 
 - `Project_Notebook.Rmd`: research notebook, source notes, market sizing,
   scenario analysis and data-gated survey/transaction templates.
+- `docs/Project_Report.html`: standalone, responsive academic project report.
 - `analysis/`: R scripts for scenario modelling and conditional visuals.
 - `data/`: published market benchmarks and blank survey schema.
 - `docs/survey_questionnaire.md`: voluntary, anonymised consumer questionnaire.
