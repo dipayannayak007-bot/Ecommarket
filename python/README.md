@@ -20,6 +20,20 @@ The analysis reads the committed market benchmark CSV and creates six PNG charts
 three CSV tables and `reports/Project_Report.html`. Outputs are reproducible and
 written under `python/reports/`.
 
+## Run the automated tests
+
+From the repository root:
+
+```bash
+python -m unittest discover -s python/tests -v
+```
+
+The test suite checks adjacent-year growth calculations, scenario assumptions,
+market-data loading, consent filtering, input validation, minimum sample size
+and the consumer-clustering output structure. Segmentation tests use small
+synthetic fixtures in memory only; these are software test data, not survey
+observations or project findings.
+
 ## Consumer segmentation (data required)
 
 The clustering workflow is deliberately separate and does not fabricate survey
