@@ -1,0 +1,61 @@
+respondent_id,state_ut,residence_type,age_band,online_purchase_12m,preferred_category,purchase_frequency_12m,spend_band_inr,price_sensitivity,discount_importance,emi_influence,exchange_influence,delivery_cost_influence,consent
+R001,Telangana,Urban,55+,Yes,Other,4-5,Below 1000,Moderately,1,Somewhat,Not at all,Not at all,Yes
+R002,Maharashtra,Urban,35-44,Yes,Accessories,2-3,30000-59999,Extremely,5,A little,A lot,Not at all,Yes
+R003,Uttar Pradesh,Urban,35-44,Yes,Large Appliance,6+,30000-59999,Moderately,3,Not at all,Somewhat,A lot,Yes
+R004,Maharashtra,Urban,25-34,Yes,Small Appliance,6+,5000-14999,Very,5,A little,A lot,A lot,Yes
+R005,Punjab,Rural,45-54,Yes,TV,2-3,Below 1000,Slightly,2,Not at all,A little,Somewhat,Yes
+R006,Tamil Nadu,Urban,25-34,Yes,Accessories,6+,5000-14999,Extremely,4,Somewhat,Somewhat,Somewhat,Yes
+R007,Karnataka,Urban,25-34,Yes,Laptop or Computer,6+,1000-4999,Moderately,5,A little,A lot,Somewhat,Yes
+R008,Uttar Pradesh,Urban,25-34,Yes,Smartphone,2-3,5000-14999,Very,5,Somewhat,Not at all,Somewhat,Yes
+R009,Assam,Rural,35-44,Yes,Small Appliance,2-3,Below 1000,Slightly,2,Not at all,A little,Not at all,Yes
+R010,Karnataka,Urban,25-34,No,Not Applicable,0,Below 1000,Moderately,1,Not at all,Not at all,Not at all,Yes
+R011,Kerala,Urban,25-34,No,Not Applicable,0,Below 1000,Not at all,1,Not at all,Not at all,A little,Yes
+R012,Delhi,Urban,35-44,Yes,Other,1,5000-14999,Extremely,5,A little,Not applicable,Somewhat,Yes
+R013,West Bengal,Rural,Under 18,Yes,Other,1,Below 1000,Moderately,4,Somewhat,A lot,A lot,Yes
+R014,Gujarat,Rural,35-44,No,Not Applicable,0,Below 1000,Extremely,5,A lot,A lot,A lot,Yes
+R015,Uttar Pradesh,Urban,25-34,Yes,Accessories,6+,5000-14999,Extremely,4,A little,A little,A lot,Yes
+R016,Karnataka,Rural,25-34,No,Not Applicable,0,Below 1000,Very,5,A lot,A lot,Not at all,Yes
+R017,Delhi,Rural,35-44,Yes,Accessories,2-3,Below 1000,Very,4,Somewhat,A lot,Somewhat,Yes
+R018,Gujarat,Urban,35-44,Yes,Laptop or Computer,2-3,15000-29999,Very,3,A lot,Not at all,Not at all,Yes
+R019,Telangana,Rural,35-44,No,Not Applicable,0,Below 1000,Extremely,4,A lot,Somewhat,Somewhat,Yes
+R020,Maharashtra,Rural,Under 18,Yes,Small Appliance,2-3,5000-14999,Slightly,2,Not at all,Not at all,A lot,Yes
+R021,Maharashtra,Urban,35-44,Yes,Large Appliance,6+,15000-29999,Moderately,4,A lot,A little,A little,Yes
+R022,Uttar Pradesh,Rural,18-24,Yes,Accessories,2-3,1000-4999,Slightly,5,A little,Not at all,Not at all,Yes
+R023,West Bengal,Urban,25-34,Yes,Smartphone,2-3,15000-29999,Extremely,4,A lot,A little,A little,Yes
+R024,Gujarat,Urban,35-44,Yes,Smartphone,4-5,30000-59999,Very,3,A lot,Somewhat,A lot,Yes
+R025,Rajasthan,Rural,25-34,Yes,Small Appliance,2-3,1000-4999,Slightly,1,Not at all,Not applicable,A little,Yes
+R026,Rajasthan,Urban,25-34,Yes,Smartphone,6+,15000-29999,Very,3,A lot,A little,A little,Yes
+R027,Uttar Pradesh,Rural,45-54,Yes,Small Appliance,2-3,1000-4999,Very,1,Not at all,Somewhat,Somewhat,Yes
+R028,Telangana,Rural,55+,Yes,Smartphone,1,Below 1000,Moderately,2,Somewhat,A lot,A little,Yes
+R029,Karnataka,Rural,25-34,No,Not Applicable,0,Below 1000,Very,5,Not at all,A lot,A lot,Yes
+R030,Delhi,Rural,Under 18,No,Not Applicable,0,Below 1000,Extremely,5,Not at all,Not applicable,A little,Yes
+R031,Maharashtra,Urban,25-34,Yes,Smartphone,4-5,15000-29999,Slightly,1,Somewhat,A little,A little,Yes
+R032,Kerala,Urban,45-54,Yes,Accessories,2-3,5000-14999,Extremely,5,Somewhat,A lot,Somewhat,Yes
+R033,Gujarat,Urban,35-44,Yes,Other,2-3,5000-14999,Slightly,1,Not eligible / Unsure,Somewhat,A little,Yes
+R034,Karnataka,Urban,35-44,Yes,TV,4-5,5000-14999,Extremely,1,A little,A lot,Not at all,Yes
+R035,Assam,Rural,35-44,Yes,Large Appliance,2-3,Below 1000,Moderately,1,Not at all,A little,A little,Yes
+R036,Delhi,Rural,25-34,No,Not Applicable,0,Below 1000,Slightly,1,Not at all,Not at all,Not at all,Yes
+R037,Gujarat,Urban,35-44,Yes,Other,4-5,1000-4999,Very,4,Somewhat,A lot,Somewhat,Yes
+R038,Gujarat,Urban,35-44,Yes,Large Appliance,6+,60000+,Moderately,1,A lot,Somewhat,A little,Yes
+R039,Rajasthan,Rural,35-44,Yes,Accessories,1,5000-14999,Moderately,5,A little,A little,A lot,Yes
+R040,Rajasthan,Urban,45-54,Yes,Large Appliance,1,15000-29999,Moderately,4,A lot,Somewhat,A little,Yes
+R041,Tamil Nadu,Urban,55+,Yes,Accessories,2-3,5000-14999,Extremely,5,A little,A little,A lot,Yes
+R042,Rajasthan,Urban,35-44,Yes,Small Appliance,6+,15000-29999,Moderately,4,A lot,Not at all,Not at all,Yes
+R043,Tamil Nadu,Urban,18-24,Yes,Other,2-3,30000-59999,Slightly,1,Not eligible / Unsure,A little,Not at all,Yes
+R044,Kerala,Urban,25-34,Yes,Other,1,Below 1000,Slightly,2,Not at all,Somewhat,Somewhat,Yes
+R045,Uttar Pradesh,Urban,25-34,Yes,Accessories,2-3,60000+,Not at all,5,Not eligible / Unsure,A lot,A lot,Yes
+R046,Uttar Pradesh,Urban,25-34,Yes,Large Appliance,6+,60000+,Moderately,3,A little,A little,A lot,Yes
+R047,Kerala,Urban,35-44,Yes,TV,4-5,60000+,Moderately,3,A lot,A little,Not at all,Yes
+R048,Odisha,Urban,35-44,Yes,Small Appliance,6+,60000+,Moderately,4,A lot,A little,A little,Yes
+R049,Karnataka,Urban,35-44,Yes,Small Appliance,2-3,1000-4999,Very,4,A little,A lot,A little,Yes
+R050,Gujarat,Urban,Under 18,Yes,Accessories,2-3,1000-4999,Moderately,1,Not at all,A little,Not at all,Yes
+R051,Punjab,Urban,35-44,Yes,Other,1,1000-4999,Slightly,2,Not at all,A little,Not at all,Yes
+R052,Maharashtra,Urban,45-54,Yes,Laptop or Computer,6+,30000-59999,Moderately,4,A little,Somewhat,A little,Yes
+R053,Uttar Pradesh,Rural,25-34,Yes,Smartphone,1,1000-4999,Very,2,A lot,A little,Not at all,Yes
+R054,Telangana,Rural,25-34,Yes,Small Appliance,2-3,Below 1000,Moderately,1,Not at all,A little,Not at all,Yes
+R055,Karnataka,Urban,18-24,Yes,Large Appliance,4-5,30000-59999,Moderately,4,A lot,A little,A little,Yes
+R056,Delhi,Rural,35-44,No,Not Applicable,0,Below 1000,Very,1,A little,A little,Not at all,Yes
+R057,Karnataka,Urban,35-44,Yes,Smartphone,6+,30000-59999,Very,4,A lot,A little,Not at all,Yes
+R058,Tamil Nadu,Urban,25-34,Yes,Laptop or Computer,4-5,5000-14999,Extremely,1,A little,Somewhat,A lot,Yes
+R059,Uttar Pradesh,Urban,25-34,Yes,Small Appliance,4-5,60000+,Extremely,3,A lot,Not at all,A little,Yes
+R060,Chandigarh,Urban,45-54,Yes,Large Appliance,4-5,15000-29999,Very,3,A lot,Not at all,A little,Yes

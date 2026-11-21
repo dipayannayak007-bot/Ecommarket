@@ -1,16 +1,9 @@
-# R / RStudio
-.Rhistory
-.RData
-.Rproj.user/
-*.Rproj
-
-# Rendered output
-*.html
-*.pdf
-*_cache/
-*_files/
-
-# Local / private data
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+outputs/
 data/raw/
 data/processed/
 data/survey_responses.csv
@@ -19,8 +12,6 @@ data/transactions.csv
 *.dta
 *.xlsx
 *.xls
-
-# OS / editor
 .DS_Store
 Thumbs.db
 .vscode/
